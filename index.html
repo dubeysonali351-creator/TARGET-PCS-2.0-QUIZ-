@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>विलोम शब्द Mock Test</title>
+    <style>
+        * { box-sizing: border-box; body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; } }
+        .header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 20px; text-align: center; }
+        .container { max-width: 800px; margin: 20px auto; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .question { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
+        .option { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; background: #fff; text-align: left; font-size: 16px; cursor: pointer; }
+        .option:hover { background-color: #eef2f5; }
+        button { width: 100%; padding: 14px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 18px; cursor: pointer; margin-top: 15px; font-weight: bold; }
+        button:hover { background: #218838; }
+        #quiz, #result { display: none; }
+        .score { font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 20px; color: #1e3c72; }
+        .review-card { padding: 12px; margin-bottom: 12px; border-radius: 6px; border-left: 5px solid #ccc; background: #f9f9f9; }
+        .correct { background: #e8f5e9; border-left-color: #2e7d32; }
+        .wrong { background: #ffebee; border-left-color: #c62828; }
+        .unattempted { background: #fff8e1; border-left-color: #f57f17; }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>📝 विलोम शब्द (इ, ई, उ, ऊ, ऋ) - MCQ Test</h1>
+    <p>Target PCS 2.0 Quiz Bot</p>
+</div>
+
+<div class="container" id="start-screen">
+    <h2>कुल प्रश्न: 25</h2>
+    <p>प्रत्येक सही उत्तर के लिए आपको 1 अंक मिलेगा। टेस्ट पूरा करने के बाद नीचे Submmit बटन दबाएं।</p>
+    <button onclick="startQuiz()">टेस्ट शुरू करें (Start Test)</button>
+</div>
+
+<div class="container" id="quiz">
+    <div id="questions-container"></div>
+    <button onclick="submitQuiz()">सबमिट करें (Submit Test)</button>
+</div>
+
+<div class="container" id="result">
+    <div class="score" id="score-text"></div>
+    <h3>उत्तर विश्लेषण (Answer Analysis):</h3>
+    <div id="review-container"></div>
+</div>
+
+<script>
+const quizData = [
+    { q: "1. 'इच्छा' का विलोम शब्द क्या होगा?", options: ["अनिच्छा", "स्वेच्छा", "कामना", "आकांक्षा"], correct: 0 },
+    { q: "2. 'इहलोक' का विलोम शब्द क्या होगा?", options: ["देवलोक", "परलोक", "स्वर्गलोक", "पाताल"], correct: 1 },
+    { q: "3. 'इष्ट' का विलोम शब्द क्या है?", options: ["अनिष्ट", "श्रेष्ठ", "विशिष्ट", "निकृष्ट"], correct: 0 },
+    { q: "4. 'इति' का सही विलोम शब्द चुनिए:", options: ["अन्त", "अथ", "समाप्त", "इतिश्री"], correct: 1 },
+    { q: "5. 'इर्ष्या' का विलोम शब्द क्या होगा?", options: ["प्रेम", "सहानुभूति", "द्वेष", "स्नेह"], correct: 3 },
+    { q: "6. 'ईश्वर' का विलोम शब्द क्या है?", options: ["अनीश्वर", "दैत्य", "दानव", "जीव"], correct: 0 },
+    { q: "7. 'ईमानदार' का विलोम शब्द क्या होगा?", options: ["बेईमान", "चोर", "झूठा", "कपट"], correct: 0 },
+    { q: "8. 'ईश' का सही विलोम शब्द क्या होगा?", options: ["अनीश", "दास", "सेवक", "दीन"], correct: 0 },
+    { q: "9. 'ईहा' शब्द का विलोम क्या होगा?", options: ["अनीहा", "चाह", "इच्छा", "स्पृहा"], correct: 0 },
+    { q: "10. 'ईषद' का विलोम शब्द क्या है?", options: ["अलम्", "अधिक", "प्रचुर", "भरपूर"], correct: 0 },
+    { q: "11. 'उचित' का विलोम शब्द क्या होगा?", options: ["अनुचित", "गलत", "अनुपयुक्त", "असंगत"], correct: 0 },
+    { q: "12. 'उदय' का सही विलोम शब्द चुनिए:", options: ["अस्त", "अन्त", "विनाश", "अदृश्य"], correct: 0 },
+    { q: "13. 'उत्कर्ष' का विलोम शब्द क्या होगा?", options: ["अपकर्ष", "पतन", "अवन्नति", "अधोगति"], correct: 0 },
+    { q: "14. 'उत्तमीर्ण' का विलोम शब्द क्या है?", options: ["अधमर्ण", "ऋणी", "कर्जदार", "महाजन"], correct: 0 },
+    { q: "15. 'उपकार' का सही विलोम शब्द क्या होगा?", options: ["अपकार", "बुराई", "अहित", "हानि"], correct: 0 },
+    { q: "16. 'उर्वर' का विलोम शब्द क्या है?", options: ["ऊसर", "बंजर", "अनुपजाऊ", "उपर्युक्त सभी"], correct: 3 },
+    { q: "17. 'ऊर्ध्व' का विलोम शब्द क्या होगा?", options: ["अधः", "निम्न", "नीचे", "तले"], correct: 0 },
+    { q: "18. 'ऊँच' का सही विलोम शब्द चुनिए:", options: ["नीच", "गहरा", "निम्न", "छोटा"], correct: 0 },
+    { q: "19. 'ऊष्मा' का विलोम शब्द क्या होगा?", options: ["शीतलता", "ठंड", "शीत", "बर्फ"], correct: 0 },
+    { q: "20. 'ऊहापोह' का सही विलोम क्या है?", options: ["निश्चय", "असमंजस", "दुविधा", "संकल्प"], correct: 0 },
+    { q: "21. 'ऋजु' का विलोम शब्द क्या होगा?", options: ["वक्र", "टेढ़ा", "सीधा", "कुटिल"], correct: 0 },
+    { q: "22. 'ऋण' का विलोम शब्द क्या है?", options: ["उऋण", "कर्ज", "उधार", "धन"], correct: 0 },
+    { q: "23. 'ऋद्धि' का विलोम शब्द क्या होगा?", options: ["विपत्ति", "अविपत्ति", "दरिद्रता", "विपन्नता"], correct: 0 },
+    { q: "24. 'ऋत' का सही विलोम शब्द चुनिए:", options: ["अनृत", "झूठ", "असत्य", "मिथ्या"], correct: 0 },
+    { q: "25. 'ऋषि' का विलोम शब्द क्या होगा?", options: ["संसारी", "गृहस्थ", "अऋषि", "अज्ञानी"], correct: 0 }
+];
+
+let userAnswers = {};
+
+function startQuiz() {
+    document.getElementById('start-screen').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
+    
+    const container = document.getElementById('questions-container');
+    container.innerHTML = '';
+    
+    quizData.forEach((q, index) => {
+        let qHtml = `<div class="question-box">
+            <div class="question">${q.q}</div>`;
+        q.options.forEach((opt, optIndex) => {
+            qHtml += `<label class="option">
+                <input type="radio" name="q${index}" value="${optIndex}" onchange="saveAns(${index}, ${optIndex})"> ${opt}
+            </label>`;
+        });
+        qHtml += `</div><hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">`;
+        container.innerHTML += qHtml;
+    });
+}
+
+function saveAns(qIdx, optIdx) {
+    userAnswers[qIdx] = optIdx;
+}
+
+function submitQuiz() {
+    let score = 0;
+    const reviewContainer = document.getElementById('review-container');
+    reviewContainer.innerHTML = '';
+    
+    quizData.forEach((q, index) => {
+        const userAns = userAnswers[index];
+        const isCorrect = userAns === q.correct;
+        if (isCorrect) score++;
+        
+        let statusClass = 'unattempted';
+        let statusText = 'आपने उत्तर नहीं दिया';
+        if (userAns !== undefined) {
+            statusClass = isCorrect ? 'correct' : 'wrong';
+            statusText = isCorrect ? 'आपका उत्तर सही है' : 'आपका उत्तर गलत है';
+        }
+
+        const reviewHtml = `<div class="review-card ${statusClass}">
+            <div><strong>${q.q}</strong></div>
+            <div>${statusText}</div>
+            <div>सही उत्तर: <b>${q.options[q.correct]}</b></div>
+            ${userAns !== undefined && !isCorrect ? `<div>आपका उत्तर: ${q.options[userAns]}</div>` : ''}
+        </div>`;
+        reviewContainer.innerHTML += reviewHtml;
+    });
+
+    document.getElementById('quiz').style.display = 'none';
+    document.getElementById('result').style.display = 'block';
+    document.getElementById('score-text').innerHTML = `आपका स्कोर: ${score} / ${quizData.length}`;
+}
+</script>
+
+</body>
+</html>
