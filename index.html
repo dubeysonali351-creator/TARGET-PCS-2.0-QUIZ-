@@ -3,133 +3,398 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>विलोम शब्द Mock Test</title>
+    <title>Expansion of British Rule - Quiz</title>
     <style>
-        * { box-sizing: border-box; body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f6f9; color: #333; } }
-        .header { background: linear-gradient(135deg, #1e3c72, #2a5298); color: white; padding: 20px; text-align: center; }
-        .container { max-width: 800px; margin: 20px auto; padding: 15px; background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .question { font-size: 18px; font-weight: bold; margin-bottom: 15px; }
-        .option { display: block; width: 100%; padding: 12px; margin: 8px 0; border: 1px solid #ddd; border-radius: 6px; background: #fff; text-align: left; font-size: 16px; cursor: pointer; }
-        .option:hover { background-color: #eef2f5; }
-        button { width: 100%; padding: 14px; background: #28a745; color: white; border: none; border-radius: 6px; font-size: 18px; cursor: pointer; margin-top: 15px; font-weight: bold; }
-        button:hover { background: #218838; }
-        #quiz, #result { display: none; }
-        .score { font-size: 22px; font-weight: bold; text-align: center; margin-bottom: 20px; color: #1e3c72; }
-        .review-card { padding: 12px; margin-bottom: 12px; border-radius: 6px; border-left: 5px solid #ccc; background: #f9f9f9; }
-        .correct { background: #e8f5e9; border-left-color: #2e7d32; }
-        .wrong { background: #ffebee; border-left-color: #c62828; }
-        .unattempted { background: #fff8e1; border-left-color: #f57f17; }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f4f7f6;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+        .quiz-container {
+            background: #ffffff;
+            width: 100%;
+            max-width: 600px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            background: #1e3a8a;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .header h2 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .header p {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+        .question-card {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .question-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+        .options-list {
+            list-style: none;
+        }
+        .option-item {
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-bottom: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 14px;
+        }
+        .option-item:hover {
+            background: #e0e7ff;
+            border-color: #6366f1;
+        }
+        .option-item.correct {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #065f46;
+            font-weight: bold;
+        }
+        .option-item.wrong {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b;
+        }
+        .explanation {
+            display: none;
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 10px 12px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #1e40af;
+        }
+        .submit-btn {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .submit-btn:hover {
+            background: #059669;
+        }
+        .score-board {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #ecfdf5;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>📝 विलोम शब्द (इ, ई, उ, ऊ, ऋ) - MCQ Test</h1>
-    <p>Target PCS 2.0 Quiz Bot</p>
-</div>
+<div class="quiz-container">
+    <div class="header">
+        <h2>Expansion of British Rule</h2>
+        <p>Battle of Plassey, Buxar & Treaty of Allahabad</p>
+    </div>
 
-<div class="container" id="start-screen">
-    <h2>कुल प्रश्न: 25</h2>
-    <p>प्रत्येक सही उत्तर के लिए आपको 1 अंक मिलेगा। टेस्ट पूरा करने के बाद नीचे Submmit बटन दबाएं।</p>
-    <button onclick="startQuiz()">टेस्ट शुरू करें (Start Test)</button>
-</div>
+    <div id="score-board" class="score-board">
+        <h3>आपका स्कोर: <span id="score">0</span> / 25</h3>
+    </div>
 
-<div class="container" id="quiz">
-    <div id="questions-container"></div>
-    <button onclick="submitQuiz()">सबमिट करें (Submit Test)</button>
-</div>
+    <div id="quiz-list"></div>
 
-<div class="container" id="result">
-    <div class="score" id="score-text"></div>
-    <h3>उत्तर विश्लेषण (Answer Analysis):</h3>
-    <div id="review-container"></div>
+    <button class="submit-btn" onclick="submitQuiz()">सबमिट करें (Submit Quiz)</button>
 </div>
 
 <script>
 const quizData = [
-    { q: "1. 'इच्छा' का विलोम शब्द क्या होगा?", options: ["अनिच्छा", "स्वेच्छा", "कामना", "आकांक्षा"], correct: 0 },
-    { q: "2. 'इहलोक' का विलोम शब्द क्या होगा?", options: ["देवलोक", "परलोक", "स्वर्गलोक", "पाताल"], correct: 1 },
-    { q: "3. 'इष्ट' का विलोम शब्द क्या है?", options: ["अनिष्ट", "श्रेष्ठ", "विशिष्ट", "निकृष्ट"], correct: 0 },
-    { q: "4. 'इति' का सही विलोम शब्द चुनिए:", options: ["अन्त", "अथ", "समाप्त", "इतिश्री"], correct: 1 },
-    { q: "5. 'इर्ष्या' का विलोम शब्द क्या होगा?", options: ["प्रेम", "सहानुभूति", "द्वेष", "स्नेह"], correct: 3 },
-    { q: "6. 'ईश्वर' का विलोम शब्द क्या है?", options: ["अनीश्वर", "दैत्य", "दानव", "जीव"], correct: 0 },
-    { q: "7. 'ईमानदार' का विलोम शब्द क्या होगा?", options: ["बेईमान", "चोर", "झूठा", "कपट"], correct: 0 },
-    { q: "8. 'ईश' का सही विलोम शब्द क्या होगा?", options: ["अनीश", "दास", "सेवक", "दीन"], correct: 0 },
-    { q: "9. 'ईहा' शब्द का विलोम क्या होगा?", options: ["अनीहा", "चाह", "इच्छा", "स्पृहा"], correct: 0 },
-    { q: "10. 'ईषद' का विलोम शब्द क्या है?", options: ["अलम्", "अधिक", "प्रचुर", "भरपूर"], correct: 0 },
-    { q: "11. 'उचित' का विलोम शब्द क्या होगा?", options: ["अनुचित", "गलत", "अनुपयुक्त", "असंगत"], correct: 0 },
-    { q: "12. 'उदय' का सही विलोम शब्द चुनिए:", options: ["अस्त", "अन्त", "विनाश", "अदृश्य"], correct: 0 },
-    { q: "13. 'उत्कर्ष' का विलोम शब्द क्या होगा?", options: ["अपकर्ष", "पतन", "अवन्नति", "अधोगति"], correct: 0 },
-    { q: "14. 'उत्तमीर्ण' का विलोम शब्द क्या है?", options: ["अधमर्ण", "ऋणी", "कर्जदार", "महाजन"], correct: 0 },
-    { q: "15. 'उपकार' का सही विलोम शब्द क्या होगा?", options: ["अपकार", "बुराई", "अहित", "हानि"], correct: 0 },
-    { q: "16. 'उर्वर' का विलोम शब्द क्या है?", options: ["ऊसर", "बंजर", "अनुपजाऊ", "उपर्युक्त सभी"], correct: 3 },
-    { q: "17. 'ऊर्ध्व' का विलोम शब्द क्या होगा?", options: ["अधः", "निम्न", "नीचे", "तले"], correct: 0 },
-    { q: "18. 'ऊँच' का सही विलोम शब्द चुनिए:", options: ["नीच", "गहरा", "निम्न", "छोटा"], correct: 0 },
-    { q: "19. 'ऊष्मा' का विलोम शब्द क्या होगा?", options: ["शीतलता", "ठंड", "शीत", "बर्फ"], correct: 0 },
-    { q: "20. 'ऊहापोह' का सही विलोम क्या है?", options: ["निश्चय", "असमंजस", "दुविधा", "संकल्प"], correct: 0 },
-    { q: "21. 'ऋजु' का विलोम शब्द क्या होगा?", options: ["वक्र", "टेढ़ा", "सीधा", "कुटिल"], correct: 0 },
-    { q: "22. 'ऋण' का विलोम शब्द क्या है?", options: ["उऋण", "कर्ज", "उधार", "धन"], correct: 0 },
-    { q: "23. 'ऋद्धि' का विलोम शब्द क्या होगा?", options: ["विपत्ति", "अविपत्ति", "दरिद्रता", "विपन्नता"], correct: 0 },
-    { q: "24. 'ऋत' का सही विलोम शब्द चुनिए:", options: ["अनृत", "झूठ", "असत्य", "मिथ्या"], correct: 0 },
-    { q: "25. 'ऋषि' का विलोम शब्द क्या होगा?", options: ["संसारी", "गृहस्थ", "अऋषि", "अज्ञानी"], correct: 0 }
+    {
+        q: "Q1. The Battle of Plassey was fought in which year? / प्लासी का युद्ध किस वर्ष लड़ा गया था?",
+        options: ["(a) 1757", "(b) 1764", "(c) 1761", "(d) 1772"],
+        ans: 0,
+        exp: "Explanation: The Battle of Plassey took place on 23 June 1757 in Bengal between Siraj-ud-Daulah and the British East India Company led by Robert Clive.\nप्लासी का युद्ध 23 जून 1757 को बंगाल के नवाब सिराजुद्दौला और रॉबर्ट क्लाइव के नेतृत्व में ब्रिटिश ईस्ट इंडिया कंपनी के बीच हुआ था।"
+    },
+    {
+        q: "Q2. Who was the Nawab of Bengal during the Battle of Plassey? / प्लासी के युद्ध के दौरान बंगाल का नवाब कौन था?",
+        options: ["(a) Mir Jafar (मीर जाफर)", "(b) Mir Qasim (मीर कासिम)", "(c) Siraj-ud-Daulah (सिराजुद्दौला)", "(d) Alivardi Khan (अलीवर्दी खान)"],
+        ans: 2,
+        exp: "Explanation: Siraj-ud-Daulah succeeded Alivardi Khan in 1756 as the Nawab of Bengal and fought the British at Plassey.\nसिराजुद्दौला 1756 में अलीवर्दी खान के बाद बंगाल का नवाब बना और प्लासी में अंग्रेजों से लड़ा।"
+    },
+    {
+        q: "Q3. Who led the British East India Company's army in the Battle of Plassey? / प्लासी के युद्ध में ब्रिटिश ईस्ट इंडिया कंपनी की सेना का नेतृत्व किसने किया था?",
+        options: ["(a) Hector Munro (हेक्टर मुनरो)", "(b) Robert Clive (रॉबर्ट क्लाइव)", "(c) Warren Hastings (वॉरेन हेस्टिंग्स)", "(d) Lord Wellesley (लॉर्ड वेलेस्ली)"],
+        ans: 1,
+        exp: "Explanation: Robert Clive commanded the British forces and secured victory through conspiracies and military tactics.\nरॉबर्ट क्लाइव ने ब्रिटिश सेना की कमान संभाली और षड्यंत्र तथा सैन्य रणनीतियों के माध्यम से जीत हासिल की।"
+    },
+    {
+        q: "Q4. Which commander betrayed Nawab Siraj-ud-Daulah during the Battle of Plassey? / प्लासी के युद्ध के दौरान किस सेनापति ने नवाब सिराजुद्दौला के साथ विश्वासघात किया था?",
+        options: ["(a) Mir Madan (मीर मदान)", "(b) Mohan Lal (मोहन लाल)", "(c) Mir Jafar (मीर जाफर)", "(d) Rai Durlabh (राय दुर्लभ)"],
+        ans: 2,
+        exp: "Explanation: Mir Jafar, the Commander-in-Chief of the Nawab's army, collaborated with Robert Clive in exchange for being made Nawab.\nनवाब की सेना के मुख्य सेनापति मीर जाफर ने नवाब बनने के लालच में रॉबर्ट क्लाइव के साथ हाथ मिला लिया था।"
+    },
+    {
+        q: "Q5. The 'Black Hole Tragedy' is associated with which event? / 'ब्लैक होल त्रासदी' (काल कोठरी की घटना) किस घटना से संबंधित है?",
+        options: ["(a) Battle of Buxar (बक्सर का युद्ध)", "(b) Siege of Fort William (1756) (फोर्ट विलियम की घेराबंदी)", "(c) Revolt of 1857 (1857 का विद्रोह)", "(d) Treaty of Allahabad (इलाहाबाद की संधि)"],
+        ans: 1,
+        exp: "Explanation: In June 1756, Nawab Siraj-ud-Daulah captured Fort William in Kolkata, where British prisoners were allegedly confined in a tiny room.\nजून 1756 में नवाब सिराजुद्दौला ने कोलकाता के फोर्ट विलियम पर कब्जा कर लिया था, जहां कथित तौर पर ब्रिटिश कैदियों को एक छोटे से कमरे में बंद कर दिया गया था।"
+    },
+    {
+        q: "Q6. Who among the following fought bravely and died supporting Siraj-ud-Daulah at Plassey? / प्लासी में सिराजुद्दौला का समर्थन करते हुए निम्नलिखित में से कौन बहादुरी से लड़ा और मारा गया?",
+        options: ["(a) Mir Jafar (मीर जाफर)", "(b) Jagat Seth (जगत सेठ)", "(c) Mir Madan (मीर मदान)", "(d) Manik Chand (मानिक चंद)"],
+        ans: 2,
+        exp: "Explanation: Mir Madan and Mohan Lal were loyal commanders of Siraj-ud-Daulah. Mir Madan was killed early in the battle by cannon fire.\nमीर मदान और मोहन लाल सिराजुद्दौला के वफादार सेनापति थे। युद्ध की शुरुआत में ही तोपखाने के गोले से मीर मदान की मृत्यु हो गई थी।"
+    },
+    {
+        q: "Q7. Who was made the Nawab of Bengal immediately after the Battle of Plassey? / प्लासी के युद्ध के तुरंत बाद किसे बंगाल का नवाब बनाया गया?",
+        options: ["(a) Mir Qasim (मीर कासिम)", "(b) Mir Jafar (मीर जाफर)", "(c) Najm-ud-Daulah (नजमुद्दौला)", "(d) Shuja-ud-Daulah (शुजाउद्दौला)"],
+        ans: 1,
+        exp: "Explanation: After Siraj-ud-Daulah was defeated and executed, the British placed Mir Jafar on the throne of Bengal as a puppet Nawab.\nसिराजुद्दौला की हार और हत्या के बाद, अंग्रेजों ने मीर जाफर को एक कठपुतली नवाब के रूप में बंगाल के सिंहासन पर बैठाया।"
+    },
+    {
+        q: "Q8. Why did the British replace Mir Jafar with Mir Qasim in 1760? / 1760 में अंग्रेजों ने मीर जाफर की जगह मीर कासिम को क्यों बैठाया?",
+        options: [
+            "(a) Mir Jafar died (मीर जाफर की मृत्यु हो गई थी)",
+            "(b) Mir Jafar failed to fulfill British financial demands (मीर जाफर अंग्रेजों की वित्तीय मांगों को पूरा करने में विफल रहा)",
+            "(c) Mir Qasim attacked the British (मीर कासिम ने अंग्रेजों पर हमला कर दिया था)",
+            "(d) By order of the Mughal Emperor (मुगल सम्राट के आदेश पर)"
+        ],
+        ans: 1,
+        exp: "Explanation: Mir Jafar could no longer meet the continuous financial drains and demands of the East India Company, prompting the Company to install Mir Qasim.\nमीर जाफर ईस्ट इंडिया कंपनी की निरंतर वित्तीय मांगों को पूरा करने में असमर्थ हो गया था, इसलिए कंपनी ने मीर कासिम को नवाब बनाया।"
+    },
+    {
+        q: "Q9. Where did Mir Qasim shift his capital from Murshidabad? / मीर कासिम ने अपनी राजधानी मुर्शिदाबाद से कहाँ स्थानांतरित की थी?",
+        options: ["(a) Patna (पटना)", "(b) Munger (मुंगेर)", "(c) Dhaka (ढाका)", "(d) Calcutta (कोलकाता)"],
+        ans: 1,
+        exp: "Explanation: Mir Qasim shifted the capital to Munger (in modern Bihar) to maintain distance from British interference in Murshidabad.\nमीर कासिम ने मुर्शिदाबाद में अंग्रेजों के हस्तक्षेप से दूर रहने के लिए अपनी राजधानी मुंगेर (वर्तमान बिहार) स्थानांतरित की।"
+    },
+    {
+        q: "Q10. What was the primary cause of conflict between Mir Qasim and the British? / मीर कासिम और अंग्रेजों के बीच संघर्ष का मुख्य कारण क्या था?",
+        options: [
+            "(a) Misuse of Dastak (trade permits) (दस्तक/व्यापार परमिट का दुरुपयोग)",
+            "(b) Religious differences (धार्मिक मतभेद)",
+            "(c) Annexation of Awadh (अवध का अधिग्रहण)",
+            "(d) French alliance (फ्रांसीसी गठबंधन)"
+        ],
+        ans: 0,
+        exp: "Explanation: Company servants misused 'Dastaks' for private trade without paying duties. Mir Qasim responded by abolishing internal duties for all merchants, angering the British.\nकंपनी के कर्मचारी बिना चुंगी दिए निजी व्यापार के लिए 'दस्तक' का दुरुपयोग कर रहे थे। इसके जवाब में मीर कासिम ने सभी व्यापारियों के लिए आंतरिक चुंगी खत्म कर दी, जिससे अंग्रेज नाराज हो गए।"
+    },
+    {
+        q: "Q11. In which year was the Battle of Buxar fought? / बक्सर का युद्ध किस वर्ष लड़ा गया था?",
+        options: ["(a) 1757", "(b) 1761", "(c) 1764", "(d) 1765"],
+        ans: 2,
+        exp: "Explanation: The Battle of Buxar was fought on 22 October 1764 near Buxar (Bihar).\nबक्सर का युद्ध 22 अक्टूबर 1764 को बक्सर (बिहार) के पास लड़ा गया था।"
+    },
+    {
+        q: "Q12. Who led the British forces in the Battle of Buxar? / बक्सर के युद्ध में ब्रिटिश सेना का नेतृत्व किसने किया था?",
+        options: ["(a) Robert Clive (रॉबर्ट क्लाइव)", "(b) Hector Munro (हेक्टर मुनरो)", "(c) Warren Hastings (वॉरेन हेस्टिंग्स)", "(d) Eyre Coote (सर आयर कूट)"],
+        ans: 1,
+        exp: "Explanation: Major Hector Munro commanded the East India Company's army and decisively defeated the combined Indian forces.\nमेजर हेक्टर मुनरो ने ईस्ट इंडिया कंपनी की सेना की कमान संभाली और भारतीय संयुक्त सेना को निर्णायक रूप से हराया।"
+    },
+    {
+        q: "Q13. Which combined triple alliance fought against the British in the Battle of Buxar? / बक्सर के युद्ध में अंग्रेजों के खिलाफ किस त्रिगुट गठबंधन ने युद्ध लड़ा था?",
+        options: [
+            "(a) Mir Qasim, Shuja-ud-Daulah, and Shah Alam II (मीर कासिम, शुजाउद्दौला और शाह आलम द्वितीय)",
+            "(b) Mir Jafar, Siraj-ud-Daulah, and Shah Alam I (मीर जाफर, सिराजुद्दौला और शाह आलम प्रथम)",
+            "(c) Tipu Sultan, Nizam of Hyderabad, and Marathas (टीपू सुल्तान, हैदराबाद के निजाम और मराठा)",
+            "(d) Mir Qasim, Chanda Sahib, and Muzaffar Jung (मीर कासिम, चंदा साहब और मुजफ्फर जंग)"
+        ],
+        ans: 0,
+        exp: "Explanation: The joint forces consisted of Mir Qasim (deposed Nawab of Bengal), Shuja-ud-Daulah (Nawab of Awadh), and Mughal Emperor Shah Alam II.\nइस संयुक्त सेना में मीर कासिम (बंगाल के पदच्युत नवाब), शुजाउद्दौला (अवध के नवाब) और मुगल सम्राट शाह आलम द्वितीय शामिल थे।"
+    },
+    {
+        q: "Q14. Why is the Battle of Buxar considered historically more decisive than Plassey? / बक्सर के युद्ध को प्लासी की तुलना में ऐतिहासिक रूप से अधिक निर्णायक क्यों माना जाता है?",
+        options: [
+            "(a) It was won purely through military supremacy over major Indian powers (यह प्रमुख भारतीय शक्तियों पर विशुद्ध रूप से सैन्य श्रेष्ठता द्वारा जीता गया था)",
+            "(b) Plassey involved no conspiracy (प्लासी में कोई षड्यंत्र शामिल नहीं था)",
+            "(c) The British captured South India immediately (अंग्रेजों ने तुरंत दक्षिण भारत पर कब्जा कर लिया)",
+            "(d) Mir Qasim became the Emperor of India (मीर कासिम भारत का सम्राट बन गया)"
+        ],
+        ans: 0,
+        exp: "Explanation: While Plassey was won mainly by conspiracy, Buxar demonstrated British military superiority by defeating the combined forces of Awadh, Bengal, and the Mughal Empire.\nजबकि प्लासी मुख्य रूप से षड्यंत्र से जीता गया था, बक्सर ने अवध, बंगाल और मुगल साम्राज्य की संयुक्त सेनाओं को हराकर ब्रिटिश सैन्य श्रेष्ठता साबित की।"
+    },
+    {
+        q: "Q15. In which year was the Treaty of Allahabad signed? / इलाहाबाद की संधि किस वर्ष हस्ताक्षरित हुई थी?",
+        options: ["(a) 1764", "(b) 1765", "(c) 1767", "(d) 1773"],
+        ans: 1,
+        exp: "Explanation: The Treaty of Allahabad was signed in August 1765 following the outcome of the Battle of Buxar.\nबक्सर के युद्ध के परिणाम स्वरूप अगस्त 1765 में इलाहाबाद की संधि पर हस्ताक्षर किए गए थे।"
+    },
+    {
+        q: "Q16. Who signed the Treaty of Allahabad on behalf of the British East India Company? / ब्रिटिश ईस्ट इंडिया कंपनी की ओर से इलाहाबाद की संधि पर किसने हस्ताक्षर किए?",
+        options: ["(a) Hector Munro (हेक्टर मुनरो)", "(b) Robert Clive (रॉबर्ट क्लाइव)", "(c) John Shore (जॉन शोर)", "(d) Warren Hastings (वॉरेन हेस्टिंग्स)"],
+        ans: 1,
+        exp: "Explanation: Robert Clive returned to Bengal as Governor in 1765 and concluded the treaty with Mughal Emperor Shah Alam II and Nawab Shuja-ud-Daulah.\nरॉबर्ट क्लाइव 1765 में गवर्नर के रूप में बंगाल वापस आया और उसने मुगल सम्राट शाह आलम द्वितीय और नवाब शुजाउद्दौला के साथ संधि की।"
+    },
+    {
+        q: "Q17. Under the Treaty of Allahabad (1765), Mughal Emperor Shah Alam II granted what rights to the East India Company? / इलाहाबाद की संधि (1765) के तहत, मुगल सम्राट शाह आलम द्वितीय ने ईस्ट इंडिया कंपनी को कौन से अधिकार प्रदान किए?",
+        options: [
+            "(a) Diwani rights of Bengal, Bihar, and Orissa (बंगाल, बिहार और उड़ीसा के दीवानी अधिकार)",
+            "(b) Complete ownership of Delhi (दिल्ली का पूर्ण स्वामित्व)",
+            "(c) Nizamat rights of Punjab (पंजाब के निज़ामत अधिकार)",
+            "(d) Right to collect tax in Mysore (मैसूर में कर वसूलने का अधिकार)"
+        ],
+        ans: 0,
+        exp: "Explanation: 'Diwani' meant the right to collect land revenue and administer civil justice in Bengal, Bihar, and Orissa.\n'दीवानी' का अर्थ बंगाल, बिहार और उड़ीसा में भू-राजस्व एकत्र करने और नागरिक न्याय का प्रबंधन करने का अधिकार था।"
+    },
+    {
+        q: "Q18. How much annual pension was agreed to be paid to Emperor Shah Alam II under the Treaty of Allahabad? / इलाहाबाद की संधि के तहत सम्राट शाह आलम द्वितीय को कितना वार्षिक वजीफा (पेंशन) देने पर सहमति बनी?",
+        options: ["(a) ₹50 Lakhs", "(b) ₹26 Lakhs", "(c) ₹12 Lakhs", "(d) ₹1 Crore"],
+        ans: 1,
+        exp: "Explanation: The Company secured Diwani rights in exchange for an annual payment of ₹26 lakhs to the Mughal Emperor.\nकंपनी ने मुगल सम्राट को 26 लाख रुपये के वार्षिक भुगतान के बदले दीवानी अधिकार हासिल किए।"
+    },
+    {
+        q: "Q19. Which two districts were ceded by the Nawab of Awadh to Emperor Shah Alam II under the Treaty of Allahabad? / इलाहाबाद की संधि के तहत अवध के नवाब ने सम्राट शाह आलम द्वितीय को कौन से दो जिले सौंपे थे?",
+        options: [
+            "(a) Kora and Allahabad (कोरा और इलाहाबाद)",
+            "(b) Banaras and Ghazipur (बनारस और गाजीपुर)",
+            "(c) Lucknow and Kanpur (लखनऊ और कानपुर)",
+            "(d) Gorakhpur and Rohilkhand (गोरखपुर और रोहिलखंड)"
+        ],
+        ans: 0,
+        exp: "Explanation: Shuja-ud-Daulah surrendered Kora and Allahabad to Clive, who subsequently handed them over to Mughal Emperor Shah Alam II.\nशुजाउद्दौला ने कोरा और इलाहाबाद क्लाइव को सौंप दिए, जिसे बाद में मुगल सम्राट शाह आलम द्वितीय को दे दिया गया।"
+    },
+    {
+        q: "Q20. What war indemnity was demanded from Nawab Shuja-ud-Daulah of Awadh by the Company? / कंपनी द्वारा अवध के नवाब शुजाउद्दौला से युद्ध की क्षतिपूर्ति (हर्जाने) के रूप में कितनी राशि मांगी गई थी?",
+        options: ["(a) ₹26 Lakhs", "(b) ₹50 Lakhs", "(c) ₹1 Crore", "(d) ₹5 Lakhs"],
+        ans: 1,
+        exp: "Explanation: Shuja-ud-Daulah had to pay ₹50 lakhs to the British Company as war indemnity for opposing them in Buxar.\nबक्सर में अंग्रेजों का विरोध करने के लिए शुजाउद्दौला को युद्ध क्षतिपूर्ति के रूप में ब्रिटिश कंपनी को 50 लाख रुपये देने पड़े थे।"
+    },
+    {
+        q: "Q21. Who introduced the System of Dual Government (Dual Administration) in Bengal in 1765? / 1765 में बंगाल में द्वैध शासन प्रणाली (Dual Government) की शुरुआत किसने की थी?",
+        options: ["(a) Warren Hastings (वॉरेन हेस्टिंग्स)", "(b) Robert Clive (रॉबर्ट क्लाइव)", "(c) Lord Cornwallis (लॉर्ड कॉर्नवालिस)", "(d) Lord William Bentinck (लॉर्ड विलियम बैंटिंक)"],
+        ans: 1,
+        exp: "Explanation: Clive established Dual Government where the Company exercised 'Diwani' (revenue/power) and the Nawab retained 'Nizamat' (executive power without resources).\nक्लाइव ने द्वैध शासन स्थापित किया जहाँ कंपनी के पास 'दीवानी' (राजस्व/शक्ति) थी और नवाब के पास 'निज़ामत' (बिना संसाधनों के प्रशासनिक जिम्मेदारी) थी।"
+    },
+    {
+        q: "Q22. What does 'Power without Responsibility, and Responsibility without Power' describe in modern Indian history? / आधुनिक भारतीय इतिहास में 'उत्तरदायित्व रहित अधिकार और अधिकार रहित उत्तरदायित्व' किसे संदर्भित करता है?",
+        options: [
+            "(a) Subsidiary Alliance (सहायक संधि)",
+            "(b) Dual System of Government in Bengal (बंगाल में द्वैध शासन)",
+            "(c) Doctrine of Lapse (व्यपगत का सिद्धांत)",
+            "(d) Permanent Settlement (स्थायी बंदोबस्त)"
+        ],
+        ans: 1,
+        exp: "Explanation: The British held financial power without responsibility for administration, while the puppet Nawab held full administrative responsibility without financial power.\nअंग्रेजों के पास प्रशासन के उत्तरदायित्व के बिना वित्तीय शक्तियां थीं, जबकि कठपुतली नवाब के पास वित्तीय शक्ति के बिना पूर्ण प्रशासनिक उत्तरदायित्व था।"
+    },
+    {
+        q: "Q23. Who abolished the Dual System of Government in Bengal in 1772? / 1772 में बंगाल में द्वैध शासन प्रणाली को किसने समाप्त किया?",
+        options: ["(a) Robert Clive (रॉबर्ट क्लाइव)", "(b) Warren Hastings (वॉरेन हेस्टिंग्स)", "(c) Lord Cornwallis (लॉर्ड कॉर्नवालिस)", "(d) John Shore (जॉन शोर)"],
+        ans: 1,
+        exp: "Explanation: Warren Hastings abolished the Dual System in 1772 and brought Bengal under direct administration of the East India Company.\nवॉरेन हेस्टिंग्स ने 1772 में द्वैध शासन को समाप्त कर दिया और बंगाल को ईस्ट इंडिया कंपनी के प्रत्यक्ष प्रशासन के तहत ले आया।"
+    },
+    {
+        q: "Q24. Who was appointed as the Deputy Diwan of Bengal by Robert Clive after the Treaty of Allahabad? / इलाहाबाद की संधि के बाद रॉबर्ट क्लाइव द्वारा बंगाल का उप-दीवान (Deputy Diwan) किसे नियुक्त किया गया था?",
+        options: ["(a) Raja Shitab Rai (राजा शिताब राय)", "(b) Mohammad Reza Khan (मोहम्मद रज़ा खान)", "(c) Rai Durlabh (राय दुर्लभ)", "(d) Jagat Seth (जगत सेठ)"],
+        ans: 1,
+        exp: "Explanation: Clive appointed Mohammad Reza Khan for Bengal and Raja Shitab Rai for Bihar as Deputy Diwans to collect revenue.\nराजस्व वसूलने के लिए क्लाइव ने बंगाल के लिए मोहम्मद रज़ा खान और बिहार के लिए राजा शिताब राय को उप-दीवान नियुक्त किया।"
+    },
+    {
+        q: "Q25. Which event marked the real transformation of the British East India Company from a commercial trading company into a territorial sovereign power in India? / किस घटना ने ब्रिटिश ईस्ट इंडिया कंपनी को भारत में एक व्यापारिक कंपनी से क्षेत्रीय संप्रभु शक्ति के रूप में वास्तविक रूप से परिवर्तित कर दिया?",
+        options: [
+            "(a) Battle of Plassey (1757) (प्लासी का युद्ध)",
+            "(b) Battle of Buxar & Treaty of Allahabad (1764-65) (बक्सर का युद्ध और इलाहाबाद की संधि)",
+            "(c) First Anglo-Mysore War (प्रथम आंग्ल-मैसूर युद्ध)",
+            "(d) Charter Act of 1813 (1813 का चार्टर अधिनियम)"
+        ],
+        ans: 1,
+        exp: "Explanation: The victory at Buxar and the subsequent Treaty of Allahabad gave the Company legal and administrative control (Diwani rights) over the wealthiest province of India (Bengal, Bihar, and Orissa).\nबक्सर में जीत और उसके बाद इलाहाबाद की संधि ने कंपनी को भारत के सबसे समृद्ध प्रांत (बंगाल, बिहार और उड़ीसा) पर कानूनी और प्रशासनिक नियंत्रण (दीवानी अधिकार) प्रदान किया।"
+    }
 ];
 
-let userAnswers = {};
+let selectedAnswers = {};
 
-function startQuiz() {
-    document.getElementById('start-screen').style.display = 'none';
-    document.getElementById('quiz').style.display = 'block';
-    
-    const container = document.getElementById('questions-container');
-    container.innerHTML = '';
-    
-    quizData.forEach((q, index) => {
-        let qHtml = `<div class="question-box">
-            <div class="question">${q.q}</div>`;
-        q.options.forEach((opt, optIndex) => {
-            qHtml += `<label class="option">
-                <input type="radio" name="q${index}" value="${optIndex}" onchange="saveAns(${index}, ${optIndex})"> ${opt}
-            </label>`;
+function renderQuiz() {
+    const quizList = document.getElementById('quiz-list');
+    quizList.innerHTML = '';
+
+    quizData.forEach((qData, qIndex) => {
+        const card = document.createElement('div');
+        card.className = 'question-card';
+
+        let optionsHTML = '';
+        qData.options.forEach((opt, oIndex) => {
+            optionsHTML += `<li class="option-item" id="opt-${qIndex}-${oIndex}" onclick="selectOption(${qIndex}, ${oIndex})">${opt}</li>`;
         });
-        qHtml += `</div><hr style="margin: 15px 0; border: 0; border-top: 1px solid #eee;">`;
-        container.innerHTML += qHtml;
+
+        card.innerHTML = `
+            <div class="question-title">${qData.q}</div>
+            <ul class="options-list">${optionsHTML}</ul>
+            <div class="explanation" id="exp-${qIndex}">${qData.exp.replace(/\n/g, '<br>')}</div>
+        `;
+        quizList.appendChild(card);
     });
 }
 
-function saveAns(qIdx, optIdx) {
-    userAnswers[qIdx] = optIdx;
+function selectOption(qIndex, oIndex) {
+    if (selectedAnswers[qIndex] !== undefined) return; // Freeze after selection
+
+    selectedAnswers[qIndex] = oIndex;
+    const correctAns = quizData[qIndex].ans;
+
+    qDataOptions = quizData[qIndex].options;
+    qDataOptions.forEach((_, optIdx) => {
+        const el = document.getElementById(`opt-${qIndex}-${optIdx}`);
+        el.style.pointerEvents = 'none';
+        if (optIdx === correctAns) {
+            el.classList.add('correct');
+        } else if (optIdx === oIndex) {
+            el.classList.add('wrong');
+        }
+    });
+
+    document.getElementById(`exp-${qIndex}`).style.display = 'block';
 }
 
 function submitQuiz() {
     let score = 0;
-    const reviewContainer = document.getElementById('review-container');
-    reviewContainer.innerHTML = '';
-    
-    quizData.forEach((q, index) => {
-        const userAns = userAnswers[index];
-        const isCorrect = userAns === q.correct;
-        if (isCorrect) score++;
-        
-        let statusClass = 'unattempted';
-        let statusText = 'आपने उत्तर नहीं दिया';
-        if (userAns !== undefined) {
-            statusClass = isCorrect ? 'correct' : 'wrong';
-            statusText = isCorrect ? 'आपका उत्तर सही है' : 'आपका उत्तर गलत है';
+    quizData.forEach((qData, qIndex) => {
+        if (selectedAnswers[qIndex] === qData.ans) {
+            score++;
         }
-
-        const reviewHtml = `<div class="review-card ${statusClass}">
-            <div><strong>${q.q}</strong></div>
-            <div>${statusText}</div>
-            <div>सही उत्तर: <b>${q.options[q.correct]}</b></div>
-            ${userAns !== undefined && !isCorrect ? `<div>आपका उत्तर: ${q.options[userAns]}</div>` : ''}
-        </div>`;
-        reviewContainer.innerHTML += reviewHtml;
+        // Show explanation for unattempted questions
+        document.getElementById(`exp-${qIndex}`).style.display = 'block';
+        qData.options.forEach((_, optIdx) => {
+            const el = document.getElementById(`opt-${qIndex}-${optIdx}`);
+            el.style.pointerEvents = 'none';
+            if (optIdx === qData.ans) {
+                el.classList.add('correct');
+            }
+        });
     });
 
-    document.getElementById('quiz').style.display = 'none';
-    document.getElementById('result').style.display = 'block';
-    document.getElementById('score-text').innerHTML = `आपका स्कोर: ${score} / ${quizData.length}`;
+    document.getElementById('score').innerText = score;
+    document.getElementById('score-board').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+renderQuiz();
 </script>
 
 </body>
